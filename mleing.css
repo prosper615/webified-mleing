@@ -1,0 +1,82 @@
+
+
+
+
+/* mleing.css */
+
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #2ecc71;
+  --dark-color: #2c3e50;
+  --light-color: #ecf0f1;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--light-color);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+p {
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--dark-color);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+textarea {
+  width: 500px;
+  height: 200px;
+  padding: 20px;
+  font-size: 18px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  resize: vertical;
+}
+
+textarea:focus {
+  outline: none;
+  box-shadow: 0 0 10px var(--primary-color);
+}
+
+button {
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--dark-color);
+}
+
+/* Add some responsiveness */
+@media only screen and (max-width: 768px) {
+  textarea {
+    width: 100%;
+    height: 150px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  p {
+    font-size: 24px;
+  }
+  textarea {
+    padding: 15px;
+  }
+  button {
+    padding: 10px 20px;
+  }
+}
