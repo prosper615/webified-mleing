@@ -12,12 +12,36 @@ import { hmacing } from "./hmac.js"
 
 
 
- async function aes_encrypt (  ){
+  export async function aes_encrypt (   ){
+
+  let  getmessage = document.getElementById("inputmessage")
+
+      let typed_message = getmessage.value
 
 
-   const   message_to_encrypt= document.getElementById("input_message")
+const see_encoded = new TextEncoder()
 
- const  key_tobe_used = hmacing().then(see_key=>{ return see_key})
+
+   const   message_to_encrypt = see_encoded.encode(typed_message)
+   
+  
+ const  key_tobe_used =  await hmacing()
+
+
+    const key = await window.crypto.subtle.importKey(
+      
+      'jwk',
+
+      key_tobe_used,
+
+      { name: "AES-GCM" },
+
+      true,
+
+      ["encrypt"]
+    
+
+    );
 
 
 
@@ -32,16 +56,20 @@ try {
 
 const encrypter = await window.crypto.subtle.encrypt(      {
         name: "AES-GCM",
-
         iv: iv
-
       },
 
-
-      message_to_encrypt, key_tobe_used
+     key  , message_to_encrypt 
     )
 
-return{ encrypter, iv }
+
+//  Now i want the encryption to  be returned in hex value for better readability
+
+const tohex_readable = Array.from(new Uint8Array(encrypter).toString(16).padStart(2,"0" )).join("")
+
+return { tohex_readable , iv }
+
+
 
 
 
@@ -58,5 +86,4 @@ return{ encrypter, iv }
 
 
 
-
- console.log(  aes_encrypt( ).then( aes_ed=>{ console.log(aes_ed)}))
+ 

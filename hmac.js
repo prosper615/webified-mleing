@@ -1,60 +1,115 @@
 
 
 
-// Here am gonna implement message lock encryption
-
-// Just a simple version using the web cryto api
-
-// influenced by reading the summary  of paper on message lock encryption by 
-
-//   Ananth Raghunathan, Dan Boneh,  Ilya Mironove and co
+// Remember the choosen key is now generated
+import { key_gen } from "./key_gen.js"
 
 
 
+  export async function hmacing(  ){
 
 
 
-// Message lock encryption is just like deriving the encryption key from the message itself 
-// This means the same message = the same key = the same ciphertext, so diff.. mess.. diff.. as specified
+// First step is the key derivation  (KDF) from the message itself, HMAC fits the situation as a KDF
 
-// This enables storage systems to detect and eliminate 
-
-
-
-
-
- async function hmacing(  themessage, choose_secretkey  ){
-
-
-// First step is the key derivation  (KDF) from the message itself HMAC fits the situation 
 try {
+
+
+
+const salt =   crypto.getRandomValues(new Uint8Array(16));
+
+
+  const   getmessage = document.getElementById("inputmessage")
    
+    const  themessage = getmessage.value
+
+ const  choose_secretkey =    await key_gen()
+
     
+    
+
 const encoder = new TextEncoder()
 
 const encodeit = encoder.encode( themessage)
 
-const encode_secretkey = encoder.encode(choose_secretkey)
 
 
 
-const hashofmessage =  await window.crypto.subtle.importKey(
 
-       'raw',
-     encode_secretkey,
+const signing_key =  await window.crypto.subtle.importKey(
+
+    'jwk',
+
+      choose_secretkey ,
+
     { name: 'HMAC', hash: { name: 'SHA-256' } },
-    false,
-    ['sign'],  
+
+  
+    
+     true,
+    
+    ['sign'],
+
+    
+    
+    
 )
 
-const signedmessage = await window.crypto.subtle.sign('HMAC', hashofmessage, encodeit)
-
-
-const toreadable_hex = Array.from(new Uint8Array(signedmessage)).map(b=> b.toString(16).padStart(8,'0' )).join()
+const signedmessage = await window.crypto.subtle.sign('HMAC', signing_key, encodeit)
 
 
 
-return toreadable_hex
+  const baseKey = await window.crypto.subtle.importKey(
+
+      'raw',
+
+      signedmessage, 
+
+      { name: 'HKDF' },
+
+      false,
+
+      ['deriveKey']
+
+    );
+
+
+
+const gotten_hmackey = await window.crypto.subtle.deriveKey(
+
+
+     {
+        name: 'HKDF',
+
+        salt: salt, 
+      
+        info: encoder.encode('encryption'),
+
+        hash: 'SHA-256'
+      },
+
+ 
+
+baseKey,
+
+{
+
+name : 'AES-GCM', length: 256
+
+},
+
+true, 
+
+['encrypt'  ]
+
+)
+
+
+
+const exportgotten_hmackey  = await window.crypto.subtle.exportKey('jwk', gotten_hmackey)
+
+
+return exportgotten_hmackey   // I had to derive the key because HMAC can not be used directly as the key for AES
 
 
 } catch (error) {
@@ -71,11 +126,6 @@ return toreadable_hex
 
 
 
-
- console.log(hmacing( "I love to hack on cool stuff", '0x3F4A9D2E1B5C7F8A3D9E2C1B4A6F7E8D').then(see_hmac=>{console.log(see_hmac)}))
-
-
- 
 
 
 
