@@ -40,29 +40,7 @@ console.log(error)
 }
 
 
-    //  await window.crypto.subtle.generateKey(algorithm, extractable, keyUsages)
-
-  // .then(cryptoKey => {
-
-// return   window.crypto.subtle.exportKey('raw', cryptoKey)
-
-
-
-
-  // })
-  // .then( seein_hex=> {
-
-// return Array.from(new Uint8Array(seein_hex)).map( h=>h.toString(16).padStart(8, "0")).join("")
-
-
-
-  // })
-
-  // .catch(error => {
-
-    // console.error("Key generation failed:", error);
-
-  // });
+    
 
 
 
