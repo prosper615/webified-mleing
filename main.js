@@ -41,9 +41,42 @@ document.addEventListener('DOMContentLoaded', function() {
 
 const submitmessage = document.getElementById("submitmessage")
 
+const submissioncheck =  document.getElementById("submissioncheck") 
+
+
 
 
 submitmessage.addEventListener( "click",  async ()=>{
+
+
+
+ const message = submitmessage.value.trim();
+
+      if (!message) {
+        submissioncheck.textContent = "Please enter a message.";
+        return;
+      }
+
+
+  const response = await fetch("/api/message", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message })
+      });
+
+
+
+
+   if (response.ok) {
+        submissioncheck.textContent = "Message saved successfully!";
+        textarea.value = "";
+      } else {
+        submissioncheck.textContent = "Failed to save message.";
+      }
+    
+
+
+
 
 
 console.log("I love to hack on cool stuff")
@@ -56,17 +89,22 @@ console.log(output_of_aes)
 
 
 
+
+
+
+
+
+
 })
 
 
 
   
-});
 
 
 
 
 
-
+})
 
 

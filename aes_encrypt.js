@@ -56,7 +56,7 @@ try {
 
 const encrypter = await window.crypto.subtle.encrypt(      {
         name: "AES-GCM",
-        iv: iv
+        iv: iv  
       },
 
      key  , message_to_encrypt 
