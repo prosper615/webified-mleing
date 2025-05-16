@@ -19,6 +19,25 @@ import { hmacing } from "./hmac.js"
       let typed_message = getmessage.value
 
 
+
+// perphaps not actually a good pratice but not wanna trim the input to be encrypted which is the above
+ 
+ const message = getmessage.value.trim();
+
+      if (!message) {
+
+        submissioncheck.textContent = "Please enter a message."
+
+        return
+
+      }
+
+
+
+
+
+
+
 const see_encoded = new TextEncoder()
 
 
@@ -67,7 +86,15 @@ const encrypter = await window.crypto.subtle.encrypt(      {
 
 const tohex_readable = Array.from(new Uint8Array(encrypter).toString(16).padStart(2,"0" )).join("")
 
+
+
+
+
+
 return { tohex_readable , iv }
+
+// return  [ tohex_readable , iv ]
+
 
 
 

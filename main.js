@@ -39,6 +39,8 @@ import { aes_encrypt } from "./aes_encrypt.js";
 document.addEventListener('DOMContentLoaded', function() {
 
 
+const inputmessage = document.getElementById("inputmessage")
+
 const submitmessage = document.getElementById("submitmessage")
 
 const submissioncheck =  document.getElementById("submissioncheck") 
@@ -48,17 +50,20 @@ const submissioncheck =  document.getElementById("submissioncheck")
 
 submitmessage.addEventListener( "click",  async ()=>{
 
-
-
- const message = submitmessage.value.trim();
+ const message = inputmessage.value.trim();
 
       if (!message) {
-        submissioncheck.textContent = "Please enter a message.";
-        return;
+
+        submissioncheck.textContent = "Please enter a message."
+
+        return
+
       }
 
+ 
 
-  const response = await fetch("/api/message", {
+
+  const response = await fetch("http://localhost:3000/api-message", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message })
@@ -78,22 +83,7 @@ submitmessage.addEventListener( "click",  async ()=>{
 
 
 
-
-console.log("I love to hack on cool stuff")
-
-
-const output_of_aes = await aes_encrypt()
-
-
-console.log(output_of_aes)
-
-
-
-
-
-
-
-
+      
 
 })
 
@@ -102,9 +92,18 @@ console.log(output_of_aes)
   
 
 
-
-
-
 })
+
+
+const whatilove =  [   "I love to hack on cool stuff" , "I love software engineering" ]
+
+console.log( whatilove)
+
+
+
+
+console.log("I love to hack on cool stuff")
+
+
 
 
