@@ -50,6 +50,26 @@ const submissioncheck =  document.getElementById("submissioncheck")
 
 submitmessage.addEventListener( "click",  async ()=>{
 
+
+
+   
+
+
+     
+    
+
+
+
+      // const await_aes = await aes_encrypt()
+
+
+  //  console.log(await_aes)
+
+
+
+
+    
+
  const message = inputmessage.value.trim();
 
       if (!message) {
@@ -58,27 +78,83 @@ submitmessage.addEventListener( "click",  async ()=>{
 
         return
 
-      }
 
- 
+}
 
 
-  const response = await fetch("http://localhost:3000/api-message", {
+
+
+
+
+try {
+
+
+
+
+      // const await_aes = await aes_encrypt()
+
+
+      // console.log(await_aes)
+
+
+  const response = await fetch("http://localhost:3000/api-message", { 
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message })
+        body: JSON.stringify({  message })
       });
+
+
+const get_mimiaturedatabase = await response.json()
 
 
 
 
    if (response.ok) {
-        submissioncheck.textContent = "Message saved successfully!";
-        textarea.value = "";
-      } else {
-        submissioncheck.textContent = "Failed to save message.";
+
+    if(get_mimiaturedatabase.notify === "The input already exists")
+       
+    submissioncheck.textContent = "Message already exists!";
+      
+
+
+      }  if (get_mimiaturedatabase.notify === "Your input have been successfully saved" ) {
+
+
+        submissioncheck.textContent = "Your message have been successfully saved!";
+
+      
+        
+  
+
+      } 
+      
+      else{
+
+
+        submissioncheck.textContent = "Error trying to perform action on your message !";
+
+
+        
       }
-    
+
+        
+
+
+
+  
+} catch (error) {
+
+
+
+  submissioncheck.textContent = "An error occured trying to store a message, maybe your trying to store the same message !";
+
+
+
+
+
+  
+}
+
 
 
 
@@ -88,21 +164,15 @@ submitmessage.addEventListener( "click",  async ()=>{
 })
 
 
-
-  
-
-
 })
 
 
-const whatilove =  [   "I love to hack on cool stuff" , "I love software engineering" ]
-
-console.log( whatilove)
 
 
 
 
-console.log("I love to hack on cool stuff")
+
+
 
 
 

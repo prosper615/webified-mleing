@@ -22,6 +22,8 @@ import { hmacing } from "./hmac.js"
 
 // perphaps not actually a good pratice but not wanna trim the input to be encrypted which is the above
  
+
+/*
  const message = getmessage.value.trim();
 
       if (!message) {
@@ -31,6 +33,10 @@ import { hmacing } from "./hmac.js"
         return
 
       }
+
+        */
+
+      
 
 
 
@@ -93,7 +99,9 @@ const tohex_readable = Array.from(new Uint8Array(encrypter).toString(16).padStar
 
 return { tohex_readable , iv }
 
-// return  [ tohex_readable , iv ]
+
+
+
 
 
 

@@ -1,6 +1,12 @@
 
 
+#whattodo{
 
+display: flex;
+
+
+
+}
 
 :root {
   --primary-color: #3498db;

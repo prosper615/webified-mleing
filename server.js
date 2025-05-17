@@ -12,7 +12,7 @@
 
 
  
-// Initially intended to use  mongodb as database, 
+// Initially intended to use  mongodb as database 
 // later found out the body-parser dependency is deprecated( for JSON requests)
 
 import express from "express";
@@ -36,7 +36,7 @@ dotenv.config();
 
 const connect_express = express()
 
- const The_port = process.env.Port  || 500
+ const The_port = process.env.Port 
 
 
 
@@ -94,22 +94,74 @@ if (fs.existsSync(messagesFile)) {
 }
 
 
+    
 
 
 
-connect_express.post('/api-message', (req, res)=>{
 
 
-    const { message } = req.body;
-    if (!message || message.trim() === "") {
+
+connect_express.post('/api-message', async (req, res)=>{
+
+
+    
+
+    const { message } = req.body
+
+
+
+    
+    if (!message) {
         return res.status(400).json({ error: "Message is required." });
     }
 
+    
+
+
+
+try {
+
+    const Checkif_exists =  messages.some(entry => entry.message === message)
+
+if(Checkif_exists){
+
+
+   return res.status(200).json({ notify: "The input already exists" }); 
+
+
+}
+
 
     messages.push({ message, timestamp: formatter.format(date) });
-    fs.writeFileSync(messagesFile, JSON.stringify(messages, null, 2));
-    res.status(200).json({ success: true });
 
+    fs.writeFileSync(messagesFile, JSON.stringify(messages, null, 2));
+
+    res.status(200).send({ notify: "Your input have been successfully saved" });
+
+
+
+
+
+
+
+    
+} catch (error) {
+
+    
+res.status(500).send({ notify:"error occured while checking message" })
+
+
+}
+
+
+/*
+
+    messages.push({ message, timestamp: formatter.format(date) })
+    fs.writeFileSync(messagesFile, JSON.stringify(messages, null, 2))
+    res.status(200).json({ success: true })
+
+
+*/
 
 
 } )
@@ -122,7 +174,7 @@ connect_express.post('/api-message', (req, res)=>{
 connect_express.get( '/api-messages' , (req , res )=>{
 
 
-res.send(messages)
+res.json(messages)
 
 
 })
