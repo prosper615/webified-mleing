@@ -59,15 +59,6 @@ submitmessage.addEventListener( "click",  async ()=>{
     
 
 
-
-      // const await_aes = await aes_encrypt()
-
-
-  //  console.log(await_aes)
-
-
-
-
     
 
  const message = inputmessage.value.trim();
@@ -83,7 +74,10 @@ submitmessage.addEventListener( "click",  async ()=>{
 
 
 
+const await_aes = await aes_encrypt()
 
+
+  
 
 
 try {
@@ -91,16 +85,10 @@ try {
 
 
 
-      // const await_aes = await aes_encrypt()
-
-
-      // console.log(await_aes)
-
-
   const response = await fetch("http://localhost:3000/api-message", { 
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({  message })
+        body: JSON.stringify({ message: await_aes })
       });
 
 
@@ -111,27 +99,34 @@ const get_mimiaturedatabase = await response.json()
 
    if (response.ok) {
 
-    if(get_mimiaturedatabase.notify === "The input already exists")
+
+
+    const notify = get_mimiaturedatabase.notify
+
+    
+
+    if(notify === "The input already exists")
        
     submissioncheck.textContent = "Message already exists!";
       
 
 
-      }  if (get_mimiaturedatabase.notify === "Your input have been successfully saved" ) {
+      }  else if (notify === "Your input have been successfully saved" ) {
 
 
         submissioncheck.textContent = "Your message have been successfully saved!";
 
-      
-        
-  
+    
+
 
       } 
+
+
       
       else{
 
 
-        submissioncheck.textContent = "Error trying to perform action on your message !";
+        submissioncheck.textContent = "Error trying to perform action on your message  !";
 
 
         
@@ -165,10 +160,6 @@ const get_mimiaturedatabase = await response.json()
 
 
 })
-
-
-
-
 
 
 

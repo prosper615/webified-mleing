@@ -6,8 +6,15 @@ import { key_gen } from "./key_gen.js"
 
 
 
-  export async function hmacing(  ){
 
+
+
+const   getmessage = document.getElementById("inputmessage")
+   
+ const  themessage = getmessage.value
+
+
+  export async function hmacing(  ){
 
 
 // First step is the key derivation  (KDF) from the message itself, HMAC fits the situation as a KDF
@@ -16,12 +23,33 @@ try {
 
 
 
-const salt =   crypto.getRandomValues(new Uint8Array(16));
 
 
-  const   getmessage = document.getElementById("inputmessage")
-   
-    const  themessage = getmessage.value
+// Also making the salt to be fixed according to an input.
+
+
+async function getFixedSalt() {
+
+  const encoder = new TextEncoder()
+
+  const data = encoder.encode(themessage)
+  
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data)
+
+  const hashArray = new Uint8Array(hashBuffer)
+  
+   // Taking the first 16 bytes as the salt,kinda like still using this : crypto.getRandomValues(new Uint8Array(16))
+   // But here the dif.. is just that the salt is based on the input and deterministic
+  const salted = hashArray.slice(0, 16)
+
+
+  return salted
+
+}
+
+const salt =   await getFixedSalt()
+
+  
 
  const  choose_secretkey =    await key_gen()
 

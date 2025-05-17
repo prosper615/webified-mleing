@@ -20,26 +20,7 @@ import { hmacing } from "./hmac.js"
 
 
 
-// perphaps not actually a good pratice but not wanna trim the input to be encrypted which is the above
- 
-
-/*
- const message = getmessage.value.trim();
-
-      if (!message) {
-
-        submissioncheck.textContent = "Please enter a message."
-
-        return
-
-      }
-
-        */
-
-      
-
-
-
+  
 
 
 
@@ -63,7 +44,7 @@ const see_encoded = new TextEncoder()
 
       true,
 
-      ["encrypt"]
+      [ "encrypt"]
     
 
     );
@@ -74,7 +55,33 @@ const see_encoded = new TextEncoder()
 
 // Initiating the initial vector to be used for encryption
 
-const iv =  window.crypto.getRandomValues( new Uint8Array(12))
+
+// Now here am using the message input to generate the iv as against my intial implementation  of generating randomly to 
+// ensure same iv for same message
+
+function getDeterministicIV() {
+
+  const encoder = new TextEncoder()
+
+  const data = encoder.encode(typed_message)
+
+  const iving  = new Uint8Array(12)
+
+  for (let i = 0; i < iving.length; i++) {
+
+
+    iving[i] = data[i % data.length];
+
+  }
+
+
+  return iving;
+
+}
+
+
+
+const iv = getDeterministicIV()
 
 try {
     
@@ -97,7 +104,7 @@ const tohex_readable = Array.from(new Uint8Array(encrypter).toString(16).padStar
 
 
 
-return { tohex_readable , iv }
+return  tohex_readable 
 
 
 

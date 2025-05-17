@@ -1,5 +1,13 @@
 
 
+// pls type : npm run dev to start the backend code. pardon i would get better in my next nodejs if the need 
+
+// to write it arise
+
+
+
+
+
 
 // Here am going to write  a simple backend for the message lock encryption(mle)
 
@@ -136,7 +144,7 @@ if(Checkif_exists){
 
     fs.writeFileSync(messagesFile, JSON.stringify(messages, null, 2));
 
-    res.status(200).send({ notify: "Your input have been successfully saved" });
+     res.status(200).send({ notify: "Your input have been successfully saved" });
 
 
 
