@@ -162,14 +162,7 @@ res.status(500).send({ notify:"error occured while checking message" })
 }
 
 
-/*
 
-    messages.push({ message, timestamp: formatter.format(date) })
-    fs.writeFileSync(messagesFile, JSON.stringify(messages, null, 2))
-    res.status(200).json({ success: true })
-
-
-*/
 
 
 } )

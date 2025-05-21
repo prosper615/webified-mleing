@@ -1,79 +1,43 @@
 
 
-// Here am implementing  key generation instead of opting for manually inputing your keys
-
-
-/*
-
-
-  export async function key_gen() {
-
-
-
-const algorithm =  { name: "HMAC", hash: { name: "SHA-256" } }
-
-const extractable = true;
-
-const keyUsages =  ["sign"];
-
- 
-  
-try {
-
- const   cryptoKey =    await window.crypto.subtle.generateKey(algorithm, extractable, keyUsages)  
-
-      
-
-const  return_key =  window.crypto.subtle.exportKey('jwk', cryptoKey)
-
-return return_key
-
-
-
-
-  
-
-
-
-  
-} catch (error) {
-
-
-console.log(error)
-
-  
-}
-
-
-    
-
-
-
-}
-
-
-*/
 
 
 
 
 
-
-export async function key_gen() {
+export async function key_gen() { 
 
   const algorithm = { name: "HMAC", hash: { name: "SHA-256" } };
 
   const extractable = true
 
-  const keyUsages = ["sign"]
+  const keyUsages = ["sign"] 
 
-  //   This ensures there is constant key against my previous implementation where the key is generated randomly
-  // Though using the same key is not crytographically secure, i purposely did it for the sake of same message having the 
-  // same encryption
+const  keyisfrom_input = document.getElementById("inputmessage")
+
+
+
+// Now getting the key based on user input instead og being handcoded as earlier
+
+ function tobase64(){
+
+// lol realised there is a binary to Ascii converter function in js: btoa()
+return btoa(keyisfrom_input)
+
+.replace(/\+/g,"" ) 
+.replace(/\//g,"")
+.replace(/\=+$/g, "")
+
+
+}
+
+const  seeit  = tobase64()
+
+
 
   const jwkKey = {
     kty: "oct",
-    k: "ZHVtbXlfa2V5X2Zvcl9kZXRlcm1pbmlzdGljX3VzZQ",  // oooh nooo, this is a handcoded key brooooo
+    k: seeit,
     alg: "HS256",
     ext: true
   }
